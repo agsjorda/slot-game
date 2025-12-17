@@ -1,0 +1,75 @@
+import * as Phaser from 'phaser';
+import { GAME_WIDTH, GAME_HEIGHT, REELS, ROWS } from '../config/gameConfig';
+
+export class ReelsFrameView {
+    private scene: Phaser.Scene;
+    private frameImage: Phaser.GameObjects.Image;
+    private symbolImages: Phaser.GameObjects.Image[][] = [];
+    private frameX: number;
+    private frameY: number;
+    private frameWidth: number = 720;
+    private frameHeight: number = 430;
+
+    constructor(scene: Phaser.Scene) {
+        this.scene = scene;
+        // Frame position
+        const frameOffsetX = 0;
+        const frameOffsetY = -20;
+        this.frameX = (GAME_WIDTH - this.frameWidth) / 2 + frameOffsetX;
+        this.frameY = (GAME_HEIGHT - this.frameHeight) / 2 + frameOffsetY;
+        this.frameImage = this.scene.add.image(
+            this.frameX + this.frameWidth / 2,
+            this.frameY + this.frameHeight / 2,
+            'slot_frame'
+        );
+        this.frameImage.setDisplaySize(this.frameWidth, this.frameHeight);
+        this.frameImage.setDepth(10);
+        this.createSymbols();
+    }
+
+    private createSymbols() {
+        const reels = REELS;
+        const rows = ROWS;
+        const symbolKeys = [
+            'symbol_0',
+            'symbol_1',
+            'symbol_2',
+            'symbol_3',
+            'symbol_5',
+            'symbol_5_1',
+            'symbol_7',
+            'symbol_8',
+            'symbol_9',
+        ];
+        const symbolW = 110;
+        const symbolH = 110;
+        const symbolSpacingX = 20;
+        const symbolSpacingY = 14;
+        const gridW = reels * symbolW + (reels - 1) * symbolSpacingX;
+        const gridH = rows * symbolH + (rows - 1) * symbolSpacingY;
+        const gridStartX = this.frameX + (this.frameWidth - gridW) / 2 + symbolW / 2;
+        const gridStartY = this.frameY + (this.frameHeight - gridH) / 2 + symbolH / 2;
+        for (let col = 0; col < reels; col++) {
+            this.symbolImages[col] = [];
+            for (let row = 0; row < rows; row++) {
+                const symbolKey = Phaser.Utils.Array.GetRandom(symbolKeys);
+                const x = gridStartX + col * (symbolW + symbolSpacingX);
+                const y = gridStartY + row * (symbolH + symbolSpacingY);
+                const symbolImg = this.scene.add
+                    .image(x, y, symbolKey)
+                    .setDisplaySize(symbolW, symbolH)
+                    .setDepth(30);
+                this.symbolImages[col][row] = symbolImg;
+            }
+        }
+    }
+
+    public setVisible(visible: boolean) {
+        this.frameImage.setVisible(visible);
+        for (const col of this.symbolImages) {
+            for (const img of col) {
+                img.setVisible(visible);
+            }
+        }
+    }
+}
