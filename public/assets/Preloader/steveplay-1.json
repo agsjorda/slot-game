@@ -1,0 +1,349 @@
+{"frames": [
+
+{
+	"filename": "steveplay007.png",
+	"frame": {"x":1,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay008.png",
+	"frame": {"x":276,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay009.png",
+	"frame": {"x":551,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay010.png",
+	"frame": {"x":826,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay011.png",
+	"frame": {"x":1101,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay012.png",
+	"frame": {"x":1376,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay013.png",
+	"frame": {"x":1651,"y":1,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay035.png",
+	"frame": {"x":1,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay036.png",
+	"frame": {"x":276,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay037.png",
+	"frame": {"x":551,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay038.png",
+	"frame": {"x":826,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay039.png",
+	"frame": {"x":1101,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay040.png",
+	"frame": {"x":1376,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay041.png",
+	"frame": {"x":1651,"y":268,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay063.png",
+	"frame": {"x":1,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay064.png",
+	"frame": {"x":276,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay065.png",
+	"frame": {"x":551,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay066.png",
+	"frame": {"x":826,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay067.png",
+	"frame": {"x":1101,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay068.png",
+	"frame": {"x":1376,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay069.png",
+	"frame": {"x":1651,"y":535,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay091.png",
+	"frame": {"x":1,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay092.png",
+	"frame": {"x":276,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay093.png",
+	"frame": {"x":551,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay094.png",
+	"frame": {"x":826,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay095.png",
+	"frame": {"x":1101,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay096.png",
+	"frame": {"x":1376,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay097.png",
+	"frame": {"x":1651,"y":802,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay119.png",
+	"frame": {"x":1,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay120.png",
+	"frame": {"x":276,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay121.png",
+	"frame": {"x":551,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay122.png",
+	"frame": {"x":826,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay123.png",
+	"frame": {"x":1101,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay124.png",
+	"frame": {"x":1376,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay125.png",
+	"frame": {"x":1651,"y":1069,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay147.png",
+	"frame": {"x":1,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay148.png",
+	"frame": {"x":276,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay149.png",
+	"frame": {"x":551,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay150.png",
+	"frame": {"x":826,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay151.png",
+	"frame": {"x":1101,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay152.png",
+	"frame": {"x":1376,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+},
+{
+	"filename": "steveplay153.png",
+	"frame": {"x":1651,"y":1336,"w":273,"h":265},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":4,"w":273,"h":265},
+	"sourceSize": {"w":300,"h":300}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "steveplay-1.png",
+	"format": "RGBA8888",
+	"size": {"w":1925,"h":1602},
+	"scale": "1",
+	"related_multi_packs": [ "steveplay-0.json", "steveplay-2.json", "steveplay-3.json" ],
+	"smartupdate": "$TexturePacker:SmartUpdate:c268e57609dbda98a0b75fb9abc52098:370ff48c2dad06a03e33bc9f5d0351b8:b965d59b7c67491289e1c3078924bc1d$"
+}
+}
