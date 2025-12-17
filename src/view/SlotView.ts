@@ -1,16 +1,11 @@
 import * as Phaser from 'phaser';
+import { ReelsFrameView } from './ReelsFrame';
 
 export default class SlotView {
-	constructor(private _scene: Phaser.Scene) {}
+	constructor(private readonly _scene: Phaser.Scene, private reelsFrameView: ReelsFrameView) {}
 
 	renderGrid(grid: string[][]) {
-		// Touch the scene so the field is genuinely used
-		this._scene.cameras.main;
-
-		grid.forEach((reel) => {
-			reel.forEach(() => {
-				// draw / update sprite at each position using this.scene
-			});
-		});
+		// Animate the reels spin
+		this.reelsFrameView.spinAnimation(grid);
 	}
 }

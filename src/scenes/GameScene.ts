@@ -23,6 +23,7 @@ import { SYMBOLS } from '../config/symbols';
 export default class GameScene extends Phaser.Scene {
 	private controller!: SlotController;
 	private view!: SlotView;
+	private reelsFrameView!: ReelsFrameView;
 
 
 	/**
@@ -62,24 +63,22 @@ export default class GameScene extends Phaser.Scene {
 		new LanternView(this);
 
 		// --- Reels Frame ---
-		new ReelsFrameView(this);
+		this.reelsFrameView = new ReelsFrameView(this);
 
 		// --- Logo  ---
 		new LogoView(this);
 
 		// --- Right-side UI Panel ---
-		new RightPanelView(this);
+		new RightPanelView(this, () => this.onSpin());
 
 		// --- Bottom UI Panel ---
 		new BottomPanelView(this);
 
-
 		// Initialize MVC components
-
 		const slotModel = new SlotModel();
 		const balanceModel = new BalanceModel();
 		this.controller = new SlotController(slotModel, balanceModel);
-		this.view = new SlotView(this);
+		this.view = new SlotView(this, this.reelsFrameView);
 	}
 
 	onSpin() {

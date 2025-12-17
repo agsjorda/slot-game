@@ -1,12 +1,15 @@
 import * as Phaser from 'phaser';
 
+
 export class RightPanelView {
     private scene: Phaser.Scene;
     private buttonGroup: Phaser.GameObjects.Group;
+    private onSpinCallback?: () => void;
 
-    constructor(scene: Phaser.Scene) {
+    constructor(scene: Phaser.Scene, onSpinCallback?: () => void) {
         this.scene = scene;
         this.buttonGroup = this.scene.add.group();
+        this.onSpinCallback = onSpinCallback;
         this.createPanel();
     }
 
@@ -77,6 +80,11 @@ export class RightPanelView {
                 .setDisplaySize(width, height)
                 .setDepth(100);
             btn.setInteractive({ useHandCursor: true });
+            if (key === 'Spin' && this.onSpinCallback) {
+                btn.on('pointerdown', () => {
+                    this.onSpinCallback && this.onSpinCallback();
+                });
+            }
             this.buttonGroup.add(btn);
         }
     }

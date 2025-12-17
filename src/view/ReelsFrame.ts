@@ -5,11 +5,19 @@ import { SYMBOLS } from '../config/symbols';
 export class ReelsFrameView {
     private scene: Phaser.Scene;
     private frameImage: Phaser.GameObjects.Image;
+    // Only 3 symbols per reel, always visible
     private symbolImages: Phaser.GameObjects.Image[][] = [];
     private frameX: number;
     private frameY: number;
     private frameWidth: number = 720;
     private frameHeight: number = 430;
+    // private _spinDuration: number = 1500; // ms for each column
+    // private _spinDelay: number = 300; // ms delay between columns (unused)
+    // Allow external adjustment of spin duration/delay
+    public setSpinDuration(_duration: number) {
+        // No-op: parameter is unused, underscore to avoid TS warning
+    }
+
 
     constructor(scene: Phaser.Scene) {
         this.scene = scene;
@@ -40,6 +48,7 @@ export class ReelsFrameView {
         const gridH = rows * symbolH + (rows - 1) * symbolSpacingY;
         const gridStartX = this.frameX + (this.frameWidth - gridW) / 2 + symbolW / 2;
         const gridStartY = this.frameY + (this.frameHeight - gridH) / 2 + symbolH / 2;
+        // Only 3 symbols per reel
         for (let col = 0; col < reels; col++) {
             this.symbolImages[col] = [];
             for (let row = 0; row < rows; row++) {
@@ -67,15 +76,70 @@ export class ReelsFrameView {
         const gridH = rows * symbolH + (rows - 1) * symbolSpacingY;
         const gridStartX = this.frameX + (this.frameWidth - gridW) / 2 + symbolW / 2;
         const gridStartY = this.frameY + (this.frameHeight - gridH) / 2 + symbolH / 2;
+        // Only update visible symbols (rows)
         for (let col = 0; col < reels; col++) {
             for (let row = 0; row < rows; row++) {
                 const symbolId = newGrid[col][row];
                 const img = this.symbolImages[col][row];
                 img.setTexture(symbolId);
-                // Optionally, update position if needed (for animation)
                 img.x = gridStartX + col * (symbolW + symbolSpacingX);
                 img.y = gridStartY + row * (symbolH + symbolSpacingY);
+                img.setVisible(true);
             }
+        }
+    }
+
+    // Animate each column spinning vertically, then stop on the result
+    public spinAnimation(resultGrid: string[][], onComplete?: () => void) {
+        const reels = REELS;
+        const rows = ROWS;
+        
+        // Classic slot animation: spin columns one at a time, then stop one at a time after last starts
+        const spinStartDelay = 150; // ms between each column starting
+        const spinStopDelay = 300;  // ms between each column stopping
+        const spinInterval = 50;    // ms between symbol changes while spinning
+        const symbolKeys = SYMBOLS.map(s => s.id);
+        const spinning: boolean[] = Array(reels).fill(false);
+        const spinTimers: number[] = [];
+
+        // Helper to start spinning a column
+        const startSpin = (col: number) => {
+            spinning[col] = true;
+            spinTimers[col] = window.setInterval(() => {
+                for (let row = 0; row < rows; row++) {
+                    const img = this.symbolImages[col][row];
+                    img.setTexture(Phaser.Utils.Array.GetRandom(symbolKeys));
+                }
+            }, spinInterval);
+        };
+
+        // Helper to stop spinning a column and show result
+        const stopSpin = (col: number) => {
+            spinning[col] = false;
+            clearInterval(spinTimers[col]);
+            for (let row = 0; row < rows; row++) {
+                const img = this.symbolImages[col][row];
+                img.setTexture(resultGrid[col][row]);
+            }
+        };
+
+        // Start each column with a delay
+        for (let col = 0; col < reels; col++) {
+            this.scene.time.delayedCall(col * spinStartDelay, () => {
+                startSpin(col);
+                // After last column starts, begin stopping columns one by one
+                if (col === reels - 1) {
+                    for (let stopCol = 0; stopCol < reels; stopCol++) {
+                        this.scene.time.delayedCall(spinStopDelay * stopCol, () => {
+                            stopSpin(stopCol);
+                            // When last column stops, call onComplete
+                            if (stopCol === reels - 1 && onComplete) {
+                                onComplete();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
