@@ -96,7 +96,7 @@ export class ReelsFrameView {
         
         // Classic slot animation: spin columns one at a time, then stop one at a time after last starts
         const spinStartDelay = 150; // ms between each column starting
-        const spinStopDelay = 300;  // ms between each column stopping
+        const spinStopDelay = 600;  // ms between each column stopping
         const spinInterval = 50;    // ms between symbol changes while spinning
         const symbolKeys = SYMBOLS.map(s => s.id);
         const spinning: boolean[] = Array(reels).fill(false);
@@ -123,14 +123,15 @@ export class ReelsFrameView {
             }
         };
 
-        // Start each column with a delay
+        let lastColumnStarted = false;
         for (let col = 0; col < reels; col++) {
             this.scene.time.delayedCall(col * spinStartDelay, () => {
                 startSpin(col);
-                // After last column starts, begin stopping columns one by one
-                if (col === reels - 1) {
+                // When the last column starts, set flag and begin stopping columns
+                if (col === reels - 1 && !lastColumnStarted) {
+                    lastColumnStarted = true;
                     for (let stopCol = 0; stopCol < reels; stopCol++) {
-                        this.scene.time.delayedCall(spinStopDelay * stopCol, () => {
+                        this.scene.time.delayedCall(spinStopDelay * (stopCol + 1), () => {
                             stopSpin(stopCol);
                             // When last column stops, call onComplete
                             if (stopCol === reels - 1 && onComplete) {
