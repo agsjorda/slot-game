@@ -18,6 +18,7 @@ import { LogoView } from '../view/LogoView';
 import { BackgroundView } from '../view/BackgroundView';
 import { BottomPanelView } from '../view/BottomPanelView';
 import { ReelsFrameView } from '../view/ReelsFrame';
+import { SYMBOLS } from '../config/symbols';
 
 export default class GameScene extends Phaser.Scene {
 	private controller!: SlotController;
@@ -36,17 +37,6 @@ export default class GameScene extends Phaser.Scene {
 		];
 		const logo = { key: 'logo', path: 'assets/Logo/Logo.png' };
 		const lantern = { key: 'lantern', path: 'assets/background/Main_Latern.png' };
-		const symbols = [
-			{ key: 'symbol_0', path: 'assets/Symbols/Symbol_0.png' },
-			{ key: 'symbol_1', path: 'assets/Symbols/Symbol_1.png' },
-			{ key: 'symbol_2', path: 'assets/Symbols/Symbol_2.png' },
-			{ key: 'symbol_3', path: 'assets/Symbols/Symbol_3.png' },
-			{ key: 'symbol_5', path: 'assets/Symbols/Symbol_5.png' },
-			{ key: 'symbol_5_1', path: 'assets/Symbols/Symbol_5-1.png' },
-			{ key: 'symbol_7', path: 'assets/Symbols/Symbol_7.png' },
-			{ key: 'symbol_8', path: 'assets/Symbols/Symbol_8.png' },
-			{ key: 'symbol_9', path: 'assets/Symbols/Symbol_9.png' }
-		];
 		const controllers = [
 			{ key: 'Autoplay', path: 'assets/Controllers/Autoplay.png' },
 			{ key: 'Turbo', path: 'assets/Controllers/Turbo.png' },
@@ -55,8 +45,12 @@ export default class GameScene extends Phaser.Scene {
 		];
 		const slotFrame = { key: 'slot_frame', path: 'assets/Reels/Property 1=Default.png' };
 
-		[logo, lantern, slotFrame, ...backgrounds, ...symbols, ...controllers].forEach(asset => {
+		[logo, lantern, slotFrame, ...backgrounds, ...controllers].forEach(asset => {
 			this.load.image(asset.key, asset.path);
+		});
+		// Load symbol images from config
+		SYMBOLS.forEach(symbol => {
+			this.load.image(symbol.id, symbol.image);
 		});
 	}
 

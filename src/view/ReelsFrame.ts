@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT, REELS, ROWS } from '../config/gameConfig';
+import { SYMBOLS } from '../config/symbols';
 
 export class ReelsFrameView {
     private scene: Phaser.Scene;
@@ -30,17 +31,7 @@ export class ReelsFrameView {
     private createSymbols() {
         const reels = REELS;
         const rows = ROWS;
-        const symbolKeys = [
-            'symbol_0',
-            'symbol_1',
-            'symbol_2',
-            'symbol_3',
-            'symbol_5',
-            'symbol_5_1',
-            'symbol_7',
-            'symbol_8',
-            'symbol_9',
-        ];
+        const symbolKeys = SYMBOLS.map(s => s.id);
         const symbolW = 110;
         const symbolH = 110;
         const symbolSpacingX = 20;
@@ -60,6 +51,30 @@ export class ReelsFrameView {
                     .setDisplaySize(symbolW, symbolH)
                     .setDepth(30);
                 this.symbolImages[col][row] = symbolImg;
+            }
+        }
+    }
+
+    // Update the grid with a new 2D array of symbol ids (for spins)
+    public updateSymbols(newGrid: string[][]) {
+        const symbolW = 110;
+        const symbolH = 110;
+        const symbolSpacingX = 20;
+        const symbolSpacingY = 14;
+        const reels = REELS;
+        const rows = ROWS;
+        const gridW = reels * symbolW + (reels - 1) * symbolSpacingX;
+        const gridH = rows * symbolH + (rows - 1) * symbolSpacingY;
+        const gridStartX = this.frameX + (this.frameWidth - gridW) / 2 + symbolW / 2;
+        const gridStartY = this.frameY + (this.frameHeight - gridH) / 2 + symbolH / 2;
+        for (let col = 0; col < reels; col++) {
+            for (let row = 0; row < rows; row++) {
+                const symbolId = newGrid[col][row];
+                const img = this.symbolImages[col][row];
+                img.setTexture(symbolId);
+                // Optionally, update position if needed (for animation)
+                img.x = gridStartX + col * (symbolW + symbolSpacingX);
+                img.y = gridStartY + row * (symbolH + symbolSpacingY);
             }
         }
     }
