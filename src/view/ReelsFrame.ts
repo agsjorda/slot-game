@@ -36,7 +36,7 @@ export class ReelsFrameView {
 	 * Number of symbol cycles before the first column stops.
 	 * Increase for longer spins, decrease for shorter spins.
 	 */
-	public spinCycles: number = 20;
+	public spinCycles: number = 15;
 	/**
 	 * Delay in ms between each column stopping (staggered stop effect).
 	 * Increase for a slower cascade, decrease for a faster stop.
@@ -65,7 +65,8 @@ export class ReelsFrameView {
 	}
 
 	private initFrame() {
-		const frameOffsetX = 0, frameOffsetY = -20;
+		const frameOffsetX = 0,
+			frameOffsetY = -20;
 		this.frameX = (GAME_WIDTH - this.frameWidth) / 2 + frameOffsetX;
 		this.frameY = (GAME_HEIGHT - this.frameHeight) / 2 + frameOffsetY;
 		this.frameImage = this.scene.add.image(
@@ -82,7 +83,7 @@ export class ReelsFrameView {
 		const gridH = ROWS * this.symbolH + (ROWS - 1) * this.symbolSpacingY;
 		return {
 			x: this.frameX + (this.frameWidth - gridW) / 2 + this.symbolW / 2,
-			y: this.frameY + (this.frameHeight - gridH) / 2 + this.symbolH / 2
+			y: this.frameY + (this.frameHeight - gridH) / 2 + this.symbolH / 2,
 		};
 	}
 
@@ -119,8 +120,6 @@ export class ReelsFrameView {
 			this.symbolsContainer.setMask(this.symbolsMask.createGeometryMask());
 		}
 	}
-
-
 
 	// Update the grid with a new 2D array of symbol ids (for spins)
 	public updateSymbols(newGrid: string[][]) {
@@ -175,7 +174,10 @@ export class ReelsFrameView {
 						ease: 'Cubic.easeInOut',
 						onUpdate: () => this.updateColumnVisibility(col, gridStartY),
 						onComplete: () => {
-							if (img.y > gridStartY + ROWS * (this.symbolH + this.symbolSpacingY)) {
+							if (
+								img.y >
+								gridStartY + ROWS * (this.symbolH + this.symbolSpacingY)
+							) {
 								img.y = gridStartY - (this.symbolH + this.symbolSpacingY);
 								img.setTexture(Phaser.Utils.Array.GetRandom(symbolKeys));
 							}
@@ -186,16 +188,23 @@ export class ReelsFrameView {
 									spinOneCycle();
 								} else {
 									// Snap to result immediately after this column finishes its cycles
-									this.snapColumnToResult(col, resultGrid, gridStartX, gridStartY);
+									this.snapColumnToResult(
+										col,
+										resultGrid,
+										gridStartX,
+										gridStartY
+									);
 									columnsStopped++;
 									if (columnsStopped === REELS) {
 										this.isSpinning = false;
-										console.log('[ReelsFrameView] Spin complete. Symbols locked.');
+										console.log(
+											'[ReelsFrameView] Spin complete. Symbols locked.'
+										);
 										onComplete?.();
 									}
 								}
 							}
-						}
+						},
 					});
 				}
 			};
@@ -203,7 +212,12 @@ export class ReelsFrameView {
 		}
 	}
 
-	private snapColumnToResult(col: number, resultGrid: string[][], gridStartX: number, gridStartY: number) {
+	private snapColumnToResult(
+		col: number,
+		resultGrid: string[][],
+		gridStartX: number,
+		gridStartY: number
+	) {
 		for (let row = 0; row < ROWS; row++) {
 			const img = this.symbolImages[col][row + 1];
 			img.setTexture(resultGrid[col][row]);
@@ -222,6 +236,19 @@ export class ReelsFrameView {
 				img.y < gridStartY + ROWS * (this.symbolH + this.symbolSpacingY);
 			img.setVisible(isVisible);
 		}
+	}
+
+	public getSymbolImage(
+		col: number,
+		row: number
+	): Phaser.GameObjects.Image | undefined {
+		if (col < 0 || col >= this.symbolImages.length) return undefined;
+		if (row < 0 || row >= this.symbolImages[col].length) return undefined;
+
+		// Note: Your symbolImages uses row + 1 offset for extra symbols
+		// For visible symbols (rows 0-2), you need row + 1
+		// You might need to adjust this based on your implementation
+		return this.symbolImages[col][row + 1];
 	}
 
 	public setVisible(visible: boolean) {

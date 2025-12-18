@@ -82,6 +82,7 @@ export class RightPanelView {
             btn.setInteractive({ useHandCursor: true });
             if (key === 'Spin' && this.onSpinCallback) {
                 btn.on('pointerdown', () => {
+                    console.log('[RightPanelView] Spin button pressed');
                     this.onSpinCallback && this.onSpinCallback();
                 });
             }
