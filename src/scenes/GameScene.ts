@@ -64,6 +64,10 @@ export default class GameScene extends Phaser.Scene {
 
 		// --- Reels Frame ---
 		this.reelsFrameView = new ReelsFrameView(this);
+		// Example: adjust mask height and redraw mask
+		this.reelsFrameView.maskHeight = 380; // Set your desired mask height here
+		this.reelsFrameView.maskY = 160; // Adjust Y position if needed
+		this.reelsFrameView.updateMask();
 
 		// --- Logo  ---
 		new LogoView(this);
