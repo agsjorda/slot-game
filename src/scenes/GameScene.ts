@@ -15,6 +15,9 @@ import BalanceController from '../controller/BalanceController';
 import { SpinManager } from '../controller/SpinManager';
 
 export default class GameScene extends Phaser.Scene {
+	constructor() {
+		super({ key: 'GameScene' });
+	}
 	private controller!: SlotController;
 	private reelsFrameView!: ReelsFrameView;
 	private winAnimator!: WinAnimator;
@@ -24,25 +27,25 @@ export default class GameScene extends Phaser.Scene {
 
 	preload() {
 		const backgrounds = [
-			{ key: 'main_bg', path: 'assets/background/Main_Background.png' },
-			{ key: 'main_cloud', path: 'assets/background/Main_Cloud.png' },
-			{ key: 'main_foreground', path: 'assets/background/Main_Foreground.png' },
-			{ key: 'cloud', path: 'assets/background/Cloud.png' },
+			{ key: 'main_bg', path: '/assets/background/Main_Background.png' },
+			{ key: 'main_cloud', path: '/assets/background/Main_Cloud.png' },
+			{ key: 'main_foreground', path: '/assets/background/Main_Foreground.png' },
+			{ key: 'cloud', path: '/assets/background/Cloud.png' },
 		];
-		const logo = { key: 'logo', path: 'assets/Logo/Logo.png' };
+		const logo = { key: 'logo', path: '/assets/Logo/Logo.png' };
 		const lantern = {
 			key: 'lantern',
-			path: 'assets/background/Main_Latern.png',
+			path: '/assets/background/Main_Latern.png',
 		};
 		const controllers = [
-			{ key: 'Autoplay', path: 'assets/Controllers/Autoplay.png' },
-			{ key: 'Turbo', path: 'assets/Controllers/Turbo.png' },
-			{ key: 'Spin', path: 'assets/Controllers/Spin.png' },
-			{ key: 'Info', path: 'assets/Controllers/Info.png' },
+			{ key: 'Autoplay', path: '/assets/Controllers/Autoplay.png' },
+			{ key: 'Turbo', path: '/assets/Controllers/Turbo.png' },
+			{ key: 'Spin', path: '/assets/Controllers/Spin.png' },
+			{ key: 'Info', path: '/assets/Controllers/Info.png' },
 		];
 		const slotFrame = {
 			key: 'slot_frame',
-			path: 'assets/Reels/Property 1=Default.png',
+			path: '/assets/Reels/Property 1=Default.png',
 		};
 
 		[logo, lantern, slotFrame, ...backgrounds, ...controllers].forEach(
@@ -53,7 +56,7 @@ export default class GameScene extends Phaser.Scene {
 
 		// Load symbol images from config
 		SYMBOLS.forEach((symbol) => {
-			this.load.image(symbol.id, symbol.image);
+			this.load.image(symbol.id, symbol.image.startsWith('/') ? symbol.image : '/'+symbol.image);
 		});
 
 		// Load background music and sound effects from public folder
