@@ -37,7 +37,7 @@ export default class StartScene extends Phaser.Scene {
         playBtnBg.setInteractive(new Phaser.Geom.Rectangle(centerX - btnWidth/2, btnY - btnHeight/2, btnWidth, btnHeight), Phaser.Geom.Rectangle.Contains);
 
         // Button text
-        const playBtnText = this.add.text(centerX, btnY, 'PLAY', {
+        this.add.text(centerX, btnY, 'PLAY', {
             fontFamily: 'Arial',
             fontSize: '40px',
             color: '#ffffff',

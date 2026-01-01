@@ -38,7 +38,7 @@ export class UiHelper {
 		});
 	}
 
-	static showBalanceUpdate(scene: Phaser.Scene, newBalance: number): void {
+	static showBalanceUpdate(): void {
 		// You can add more UI helpers here
 		// For example: balance update animations, bet display, etc.
 	}
