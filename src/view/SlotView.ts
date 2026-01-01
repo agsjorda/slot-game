@@ -1,4 +1,3 @@
-import * as Phaser from 'phaser';
 import { ReelsFrameView } from './ReelsFrame';
 
 export default class SlotView {

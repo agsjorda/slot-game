@@ -6,9 +6,9 @@ export default class StartScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('logo', '/assets/Logo/Logo.png');
-        this.load.image('play_btn', '/assets/Controllers/Spin.png');
-        this.load.image('bonus_bg', '/assets/background/Bonus_Background.png');
+        this.load.image('logo', 'assets/Logo/Logo.png');
+        this.load.image('play_btn', 'assets/Controllers/Spin.png');
+        this.load.image('bonus_bg', 'assets/background/Bonus_Background.png');
     }
 
     create() {
