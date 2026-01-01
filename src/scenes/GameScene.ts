@@ -117,9 +117,10 @@ export default class GameScene extends Phaser.Scene {
 		);
 
 		// --- Character (left side) ---
-		// Position: left of reels, vertically centered to match screenshot
-		const charX = 130; // Left side positioning
-		const charY = 280; // Vertically centered with reels
+		// Position: left of reels, vertically centered with reel frame
+		// Reel frame center Y = frameY (125) + frameHeight/2 (215) = 340
+		const charX = 160; // Left side positioning, closer to reel frame
+		const charY = 340; // Vertically centered with reel frame
 		new CharacterView(this, charX, charY);
 
 		// --- Sound Toggle (bottom left) ---

@@ -1,0 +1,43 @@
+{
+	"skeleton": {
+		"hash": "XDW6osKXH/c",
+		"spine": "4.2.40",
+		"x": -421.82,
+		"y": -598.43,
+		"width": 797.5,
+		"height": 1195.71,
+		"images": "../../../Documents/~Comontech/CaisnoGame/SP001 - SugarWonderland/~Design/~Spine/",
+		"audio": "./audio"
+	},
+	"bones": [
+		{ "name": "root" },
+		{ "name": "Sugar", "parent": "root", "x": -20.31, "y": -119.99 },
+		{ "name": "Lower-Body", "parent": "Sugar", "length": 293.51, "rotation": -90.22, "x": 0.15, "y": -26.48 },
+		{ "name": "L-Legs", "parent": "Lower-Body", "length": 120.56, "rotation": 25.16, "x": 321.2, "y": -153.22 },
+		{ "name": "R-Legs", "parent": "Lower-Body", "length": 133.04, "rotation": -29.28, "x": 323.05, "y": 156.91 },
+		{ "name": "Upper-Body", "parent": "Sugar", "length": 607.34, "rotation": 89.95, "x": 1.99, "y": 12.29 },
+		{ "name": "R-Upper-Arm", "parent": "Upper-Body", "length": 203.9, "rotation": -174.98, "x": 61.81, "y": -314.01 },
+		{ "name": "R-Lower-Arm", "parent": "R-Upper-Arm", "length": 228.52, "rotation": -1.96, "x": 213.09, "y": -0.84 },
+		{ "name": "L-Upper-Arm", "parent": "Upper-Body", "length": 258.76, "rotation": 176.96, "x": 85.9, "y": 324.64 },
+		{ "name": "L-Lower-Arm", "parent": "L-Upper-Arm", "length": 182.75, "rotation": 2.86, "x": 266.14, "y": 0.37 },
+		{ "name": "L-Horn", "parent": "Upper-Body", "rotation": -90.17, "x": 539.73, "y": 227.26 },
+		{ "name": "R-Horn", "parent": "Upper-Body", "rotation": -90.17, "x": 549.49, "y": -204.73 },
+		{ "name": "L-Eye", "parent": "Upper-Body", "x": 364.18, "y": 170.57 },
+		{ "name": "R-Eye", "parent": "Upper-Body", "x": 348.33, "y": -187.51 },
+		{ "name": "L-EyeBall", "parent": "L-Eye", "x": -18.44, "y": 5.59 },
+		{ "name": "R-EyeBall", "parent": "R-Eye", "x": 12.97, "y": 14.73 },
+		{ "name": "Mouth", "parent": "Upper-Body", "x": 237.13, "y": 14.09 }
+	],
+	"slots": [
+		{ "name": "horn-l", "bone": "L-Horn", "attachment": "horn-l" },
+		{ "name": "horn-r", "bone": "R-Horn", "attachment": "horn-r" },
+		{ "name": "arm-l", "bone": "L-Upper-Arm", "attachment": "arm-l" },
+		{ "name": "arm-r", "bone": "R-Upper-Arm", "attachment": "arm-r" },
+		{ "name": "body", "bone": "Lower-Body", "attachment": "body" },
+		{ "name": "mouth", "bone": "Mouth", "attachment": "mouth-shocked" },
+		{ "name": "r-eye", "bone": "R-Eye", "attachment": "r-eye" },
+		{ "name": "r-pupil", "bone": "R-EyeBall", "attachment": "r-pupil" },
+		{ "name": "l-eye", "bone": "L-Eye", "attachment": "l-eye" },
+		{ "name": "l-pupil", "bone": "L-EyeBall", "attachment": "l-pupil" }
+	]
+}
