@@ -1,33 +1,24 @@
+// ...existing code...
 import * as Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT, REELS, ROWS } from '../config/gameConfig';
 import { SYMBOLS } from '../config/symbols';
 
 export class ReelsFrameView {
+		/**
+		 * Returns true if the symbol is fully inside the frame
+		 */
+		private isSymbolInFrame(img: Phaser.GameObjects.Image): boolean {
+			// Use Phaser's getBounds for both symbol and frame
+			const symbolBounds = img.getBounds();
+			const frameBounds = new Phaser.Geom.Rectangle(this.frameX, this.frameY, this.frameWidth, this.frameHeight);
+			// Return true if symbol is fully inside the frame
+			return Phaser.Geom.Rectangle.ContainsRect(frameBounds, symbolBounds);
+		}
 	private isSpinning: boolean = false;
-	/**
-	 * Redraws the mask using the current maskX, maskY, maskWidth, and maskHeight values.
-	 * Call this after changing any mask property to update the mask.
-	 */
-	public updateMask() {
-		if (!this.symbolsMask) return;
-		this.symbolsMask.clear();
-		this.symbolsMask.fillStyle(0xffffff, 0); // alpha=0 for invisible mask
-		const maskX = this.maskX !== null ? this.maskX : this.frameX;
-		const maskY = this.maskY !== null ? this.maskY : this.frameY;
-		const maskWidth =
-			this.maskWidth !== null ? this.maskWidth : this.frameWidth;
-		const maskHeight =
-			this.maskHeight !== null ? this.maskHeight : this.frameHeight;
-		this.symbolsMask.fillRect(maskX, maskY, maskWidth, maskHeight);
-	}
-	// Public mask adjustment properties
-	public maskX: number | null = null;
-	public maskY: number | null = null;
-	public maskWidth: number | null = null;
-	public maskHeight: number | null = null;
+	// Masking removed: not needed when using visibility logic
 	private frameImage!: Phaser.GameObjects.Image;
 	private scene: Phaser.Scene;
-	private symbolsMask?: Phaser.GameObjects.Graphics;
+// Masking removed
 	private symbolsContainer?: Phaser.GameObjects.Container;
 	// 3 visible + 2 extra symbols per reel for smooth rolling
 	private symbolImages: Phaser.GameObjects.Image[][] = [];
@@ -52,17 +43,30 @@ export class ReelsFrameView {
 	public symbolSpacingX: number = 20;
 	public symbolSpacingY: number = 14;
 
-	private frameX!: number;
-	private frameY!: number;
-	private frameWidth: number = 720;
-	private frameHeight: number = 430;
+	private frameX: number;
+	private frameY: number;
+	private frameWidth: number;
+	private frameHeight: number;
 
-	constructor(scene: Phaser.Scene) {
+	constructor(
+		scene: Phaser.Scene,
+		frameX?: number,
+		frameY?: number,
+		frameWidth?: number,
+		frameHeight?: number
+	) {
 		this.scene = scene;
+		this.frameWidth = frameWidth ?? 720;
+		this.frameHeight = frameHeight ?? 430;
+		this.frameX = frameX ?? (GAME_WIDTH - this.frameWidth) / 2;
+		this.frameY = frameY ?? (GAME_HEIGHT - this.frameHeight) / 2;
 		this.initFrame();
 		this.initSymbols();
-		this.initMask();
+		// Ensure no leftover graphics for masking are created or left visible
 	}
+	
+
+	// ...existing code...
 
 	private initFrame() {
 		const frameOffsetX = 0,
@@ -101,30 +105,23 @@ export class ReelsFrameView {
 					.image(x, y, symbolKey)
 					.setDisplaySize(this.symbolW, this.symbolH)
 					.setDepth(30);
+				// Hide symbols outside the frame
+				symbolImg.setVisible(
+					y >= this.frameY && y < this.frameY + this.frameHeight
+				);
 				this.symbolImages[col][row + 1] = symbolImg;
 				this.symbolsContainer.add(symbolImg);
 			}
 		}
 	}
 
-	private initMask() {
-		this.symbolsMask = this.scene.add.graphics();
-		const maskX = this.maskX ?? this.frameX;
-		const maskY = this.maskY ?? this.frameY;
-		const maskWidth = this.maskWidth ?? this.frameWidth;
-		const maskHeight = this.maskHeight ?? this.frameHeight;
-		this.symbolsMask.fillStyle(0xffffff, 0);
-		this.symbolsMask.fillRect(maskX, maskY, maskWidth, maskHeight);
-		this.symbolsMask.setVisible(false);
-		if (this.symbolsContainer && this.symbolsMask) {
-			this.symbolsContainer.setMask(this.symbolsMask.createGeometryMask());
-		}
-	}
 
 	// Update the grid with a new 2D array of symbol ids (for spins)
 	public updateSymbols(newGrid: string[][]) {
 		if (this.isSpinning) return;
 		const { x: gridStartX, y: gridStartY } = this.getGridStart();
+		const visibleTop = this.frameY;
+		const visibleBottom = this.frameY + this.frameHeight;
 		for (let col = 0; col < REELS; col++) {
 			for (let row = 0; row < ROWS; row++) {
 				const symbolId = newGrid[col][row];
@@ -132,19 +129,24 @@ export class ReelsFrameView {
 				img.setTexture(symbolId);
 				img.x = gridStartX + col * (this.symbolW + this.symbolSpacingX);
 				img.y = gridStartY + row * (this.symbolH + this.symbolSpacingY);
-				img.setVisible(true);
+				img.setVisible(img.y >= visibleTop && img.y < visibleBottom);
 			}
-			this.updateExtraSymbols(col, gridStartY);
+			this.updateExtraSymbols(col, gridStartY, visibleTop, visibleBottom);
 		}
 	}
 
-	private updateExtraSymbols(col: number, gridStartY: number) {
+	private updateExtraSymbols(col: number, gridStartY: number, visibleTop?: number, visibleBottom?: number) {
+		// Always use frameY/frameHeight for visibility
+		if (visibleTop === undefined || visibleBottom === undefined) {
+			visibleTop = this.frameY;
+			visibleBottom = this.frameY + this.frameHeight;
+		}
 		const topExtra = this.symbolImages[col][0];
 		const bottomExtra = this.symbolImages[col][ROWS + 1];
 		topExtra.y = gridStartY - (this.symbolH + this.symbolSpacingY);
 		bottomExtra.y = gridStartY + ROWS * (this.symbolH + this.symbolSpacingY);
-		topExtra.setVisible(false);
-		bottomExtra.setVisible(false);
+		topExtra.setVisible(topExtra.y >= visibleTop && topExtra.y < visibleBottom);
+		bottomExtra.setVisible(bottomExtra.y >= visibleTop && bottomExtra.y < visibleBottom);
 	}
 
 	// Animate each column spinning vertically, then stop on the result
@@ -172,7 +174,10 @@ export class ReelsFrameView {
 						y: img.y + this.symbolH + this.symbolSpacingY,
 						duration: this.spinSymbolSpeed,
 						ease: 'Cubic.easeInOut',
-						onUpdate: () => this.updateColumnVisibility(col, gridStartY),
+						onUpdate: () => {
+							// Hide symbols if any part is outside the frame
+							img.setVisible(this.isSymbolInFrame(img));
+						},
 						onComplete: () => {
 							if (
 								img.y >
@@ -181,13 +186,16 @@ export class ReelsFrameView {
 								img.y = gridStartY - (this.symbolH + this.symbolSpacingY);
 								img.setTexture(Phaser.Utils.Array.GetRandom(symbolKeys));
 							}
-							this.updateColumnVisibility(col, gridStartY);
+							img.setVisible(this.isSymbolInFrame(img));
+							for (let r = 0; r < ROWS + 2; r++) {
+								const s = this.symbolImages[col][r];
+								s.setVisible(this.isSymbolInFrame(s));
+							}
 							if (row === ROWS + 1) {
 								cycles++;
 								if (cycles < totalCycles) {
 									spinOneCycle();
 								} else {
-									// Snap to result immediately after this column finishes its cycles
 									this.snapColumnToResult(
 										col,
 										resultGrid,
@@ -197,9 +205,7 @@ export class ReelsFrameView {
 									columnsStopped++;
 									if (columnsStopped === REELS) {
 										this.isSpinning = false;
-										console.log(
-											'[ReelsFrameView] Spin complete. Symbols locked.'
-										);
+										console.log('[ReelsFrameView] Spin complete. Symbols locked.');
 										onComplete?.();
 									}
 								}
@@ -223,18 +229,14 @@ export class ReelsFrameView {
 			img.setTexture(resultGrid[col][row]);
 			img.x = gridStartX + col * (this.symbolW + this.symbolSpacingX);
 			img.y = gridStartY + row * (this.symbolH + this.symbolSpacingY);
-			img.setVisible(true);
+			// Hide symbols outside the frame after snap
+			img.setVisible(img.y >= this.frameY && img.y < this.frameY + this.frameHeight);
 		}
 		this.updateExtraSymbols(col, gridStartY);
-	}
-
-	private updateColumnVisibility(col: number, gridStartY: number) {
-		for (let row = 0; row < ROWS + 2; row++) {
-			const img = this.symbolImages[col][row];
-			const isVisible =
-				img.y >= gridStartY &&
-				img.y < gridStartY + ROWS * (this.symbolH + this.symbolSpacingY);
-			img.setVisible(isVisible);
+		// Play reel stop sound via SoundManager if available
+		const gameScene = this.scene as any;
+		if (gameScene.soundManager && typeof gameScene.soundManager.playReelStop === 'function') {
+			gameScene.soundManager.playReelStop();
 		}
 	}
 

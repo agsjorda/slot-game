@@ -1,6 +1,7 @@
 export default class BalanceModel {
 	balance = 200_000;
 	bet = 240;
+	totalWin = 0;
 
 	canSpin(): boolean {
 		return this.balance >= this.bet;
@@ -12,5 +13,10 @@ export default class BalanceModel {
 
 	addWin(amount: number): void {
 		this.balance += amount;
+		this.totalWin += amount;
+	}
+
+	resetTotalWin(): void {
+		this.totalWin = 0;
 	}
 }

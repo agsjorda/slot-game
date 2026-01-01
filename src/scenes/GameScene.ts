@@ -8,15 +8,19 @@ import { LogoView } from '../view/LogoView';
 import { BackgroundView } from '../view/BackgroundView';
 import { BottomPanelView } from '../view/BottomPanelView';
 import { ReelsFrameView } from '../view/ReelsFrame';
+import { SoundManager } from '../utils/SoundManager';
 import { SYMBOLS } from '../config/symbols';
 import { WinAnimator } from '../view/WinAnimator';
-import { UiHelper } from '../utils/UiHelper'; // New utility
+import BalanceController from '../controller/BalanceController';
+import { SpinManager } from '../controller/SpinManager';
 
 export default class GameScene extends Phaser.Scene {
 	private controller!: SlotController;
 	private reelsFrameView!: ReelsFrameView;
 	private winAnimator!: WinAnimator;
-	private isSpinning: boolean = false;
+	private soundManager!: SoundManager;
+	private spinManager!: SpinManager;
+	public bottomPanelView!: import('../view/BottomPanelView').BottomPanelView;
 
 	preload() {
 		const backgrounds = [
@@ -52,9 +56,10 @@ export default class GameScene extends Phaser.Scene {
 			this.load.image(symbol.id, symbol.image);
 		});
 
-		// Load sound effects
-		// this.load.audio('spin_sound', 'assets/sounds/spin.mp3');
-		// this.load.audio('reel_stop', 'assets/sounds/reel_stop.mp3');
+		// Load background music from public folder
+		this.load.audio('bg_music', '/assets/sounds/background-default.mp3');
+		this.load.audio('reel_spin', '/assets/sounds/reelSpin.mp3');
+		this.load.audio('reel_stop', '/assets/sounds/reel_stop.mp3');
 		// this.load.audio('line_win', 'assets/sounds/line_win.mp3');
 		// this.load.audio('big_win', 'assets/sounds/big_win.mp3');
 	}
@@ -68,9 +73,9 @@ export default class GameScene extends Phaser.Scene {
 
 		// --- Reels Frame ---
 		this.reelsFrameView = new ReelsFrameView(this);
-		this.reelsFrameView.maskHeight = 380;
-		this.reelsFrameView.maskY = 160;
-		this.reelsFrameView.updateMask();
+		// this.reelsFrameView.maskHeight = 380;
+		// this.reelsFrameView.maskY = 160;
+		// this.reelsFrameView.updateMask();
 
 		// --- Logo ---
 		new LogoView(this);
@@ -79,58 +84,30 @@ export default class GameScene extends Phaser.Scene {
 		new RightPanelView(this, this.onSpin.bind(this));
 
 		// --- Bottom UI Panel ---
-		new BottomPanelView(this);
+		const balanceModel = new BalanceModel();
+		const balanceController = new BalanceController(balanceModel);
+		this.bottomPanelView = new BottomPanelView(this, balanceController);
 
 		// Initialize MVC components
 		const slotModel = new SlotModel();
-		const balanceModel = new BalanceModel();
 		this.controller = new SlotController(slotModel, balanceModel);
 
 		// Initialize Win Animator
 		this.winAnimator = new WinAnimator(this, this.reelsFrameView);
+
+		this.soundManager = new SoundManager(this);
+		this.soundManager.playBackgroundMusic();
+		this.spinManager = new SpinManager(
+			this,
+			this.controller,
+			this.reelsFrameView,
+			this.winAnimator,
+			this.soundManager
+		);
 	}
 
 	private async onSpin(): Promise<void> {
-		if (this.isSpinning || this.winAnimator.isAnimatingWins()) {
-			return;
-		}
-
-		this.isSpinning = true;
-
-		try {
-			// Play spin sound
-			// this.sound.play('spin_sound', { volume: 0.3 });
-
-			// 1. Get spin result from controller
-			const result = this.controller.spin();
-			if (!result) {
-				UiHelper.showMessage(this, 'Not enough balance!', 0xff0000);
-				return;
-			}
-
-			// 2. Animate the reels
-			await this.animateReels(result.grid);
-
-			// 3. Handle wins through WinAnimator
-			if (result.wins.length > 0) {
-				await this.winAnimator.presentWins(result.wins, result.totalWin);
-			} else {
-				UiHelper.showMessage(this, 'Try Again!', 0xffffff);
-			}
-		} catch (error) {
-			console.error('Spin error:', error);
-		} finally {
-			this.isSpinning = false;
-		}
+		await this.spinManager.spin();
 	}
 
-	private async animateReels(grid: string[][]): Promise<void> {
-		return new Promise((resolve) => {
-			this.reelsFrameView.spinAnimation(grid, () => {
-				// Play reel stop sound
-				// this.sound.play('reel_stop', { volume: 0.4 });
-				resolve();
-			});
-		});
-	}
 }
