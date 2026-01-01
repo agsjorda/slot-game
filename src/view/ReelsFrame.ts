@@ -4,16 +4,6 @@ import { GAME_WIDTH, GAME_HEIGHT, REELS, ROWS } from '../config/gameConfig';
 import { SYMBOLS } from '../config/symbols';
 
 export class ReelsFrameView {
-		/**
-		 * Returns true if the symbol is fully inside the frame
-		 */
-		private isSymbolInFrame(img: Phaser.GameObjects.Image): boolean {
-			// Use Phaser's getBounds for both symbol and frame
-			const symbolBounds = img.getBounds();
-			const frameBounds = new Phaser.Geom.Rectangle(this.frameX, this.frameY, this.frameWidth, this.frameHeight);
-			// Return true if symbol is fully inside the frame
-			return Phaser.Geom.Rectangle.ContainsRect(frameBounds, symbolBounds);
-		}
 	private isSpinning: boolean = false;
 	// Masking removed: not needed when using visibility logic
 	private frameImage!: Phaser.GameObjects.Image;
@@ -47,6 +37,13 @@ export class ReelsFrameView {
 	private frameY: number;
 	private frameWidth: number;
 	private frameHeight: number;
+
+	// Inline visibility check - much faster than getBounds()
+	private isVisible(y: number): boolean {
+		const halfHeight = this.symbolH / 2;
+		// Symbol is visible only if fully inside the frame
+		return (y - halfHeight >= this.frameY && y + halfHeight <= this.frameY + this.frameHeight);
+	}
 
 	constructor(
 		scene: Phaser.Scene,
@@ -167,33 +164,32 @@ export class ReelsFrameView {
 			const totalCycles = Math.ceil(requiredSpinTime / this.spinSymbolSpeed);
 
 			const spinOneCycle = () => {
+				let completedInCycle = 0;
+
 				for (let row = 0; row < ROWS + 2; row++) {
 					const img = this.symbolImages[col][row];
+					const newY = img.y + this.symbolH + this.symbolSpacingY;
+
 					this.scene.tweens.add({
 						targets: img,
-						y: img.y + this.symbolH + this.symbolSpacingY,
+						y: newY,
 						duration: this.spinSymbolSpeed,
-						ease: 'Cubic.easeInOut',
+						ease: 'Linear',
 						onUpdate: () => {
-							// Hide symbols if any part is outside the frame
-							img.setVisible(this.isSymbolInFrame(img));
+							img.setVisible(this.isVisible(img.y));
 						},
 						onComplete: () => {
-							if (
-								img.y >
-								gridStartY + ROWS * (this.symbolH + this.symbolSpacingY)
-							) {
+							if (img.y > gridStartY + ROWS * (this.symbolH + this.symbolSpacingY)) {
 								img.y = gridStartY - (this.symbolH + this.symbolSpacingY);
 								img.setTexture(Phaser.Utils.Array.GetRandom(symbolKeys));
 							}
-							img.setVisible(this.isSymbolInFrame(img));
-							for (let r = 0; r < ROWS + 2; r++) {
-								const s = this.symbolImages[col][r];
-								s.setVisible(this.isSymbolInFrame(s));
-							}
-							if (row === ROWS + 1) {
+							img.setVisible(this.isVisible(img.y));
+
+							completedInCycle++;
+							if (completedInCycle === ROWS + 2) {
 								cycles++;
 								if (cycles < totalCycles) {
+									completedInCycle = 0;
 									spinOneCycle();
 								} else {
 									this.snapColumnToResult(
