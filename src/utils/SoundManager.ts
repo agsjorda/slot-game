@@ -1,6 +1,9 @@
 import * as Phaser from 'phaser';
 
 export class SoundManager {
+        playWinSound() {
+            this.scene.sound.play('you-win-sequence-1', { volume: 0.7 });
+        }
     private scene: Phaser.Scene;
     private reelSpinSound?: Phaser.Sound.BaseSound;
 

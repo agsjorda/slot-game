@@ -49,6 +49,7 @@ export class SpinManager {
             }
             await this.animateReels(result.grid);
             if (result.wins.length > 0) {
+                this.soundManager.playWinSound();
                 await this.winAnimator.presentWins(result.wins, result.totalWin);
                 // Update win and balance display after win
                 if (bottomPanel && typeof bottomPanel.updateWinDisplay === 'function') {

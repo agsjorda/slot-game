@@ -56,12 +56,11 @@ export default class GameScene extends Phaser.Scene {
 			this.load.image(symbol.id, symbol.image);
 		});
 
-		// Load background music from public folder
+		// Load background music and sound effects from public folder
 		this.load.audio('bg_music', '/assets/sounds/background-default.mp3');
 		this.load.audio('reel_spin', '/assets/sounds/reelSpin.mp3');
 		this.load.audio('reel_stop', '/assets/sounds/reel_stop.mp3');
-		// this.load.audio('line_win', 'assets/sounds/line_win.mp3');
-		// this.load.audio('big_win', 'assets/sounds/big_win.mp3');
+		this.load.audio('you-win-sequence-1', '/assets/sounds/you-win-sequence-1.mp3');
 	}
 
 	create() {
