@@ -11,8 +11,11 @@ import { ReelsFrameView } from '../view/ReelsFrame';
 import { SoundManager } from '../utils/SoundManager';
 import { SYMBOLS } from '../config/symbols';
 import { WinAnimator } from '../view/WinAnimator';
+import CharacterView from '../view/CharacterView';
 import BalanceController from '../controller/BalanceController';
 import { SpinManager } from '../controller/SpinManager';
+import { SoundToggleView } from '../view/SoundToggleView';
+import { SettingsIconView } from '../view/SettingsIconView';
 
 export default class GameScene extends Phaser.Scene {
 	constructor() {
@@ -42,6 +45,8 @@ export default class GameScene extends Phaser.Scene {
 			{ key: 'Turbo', path: 'assets/Controllers/Turbo.png' },
 			{ key: 'Spin', path: 'assets/Controllers/Spin.png' },
 			{ key: 'Info', path: 'assets/Controllers/Info.png' },
+			{ key: 'Volume', path: 'assets/Controllers/Volume.png' },
+			{ key: 'Settings', path: 'assets/Controllers/Setting.png' },
 		];
 		const slotFrame = {
 			key: 'slot_frame',
@@ -58,6 +63,10 @@ export default class GameScene extends Phaser.Scene {
 		SYMBOLS.forEach((symbol) => {
 			this.load.image(symbol.id, symbol.image.startsWith('assets/') ? symbol.image : 'assets/' + symbol.image.replace(/^\/*/, ''));
 		});
+
+		// Load character sprite atlas - converted from char.atlas to Phaser format
+		// This properly extracts each part from the char.png sprite sheet
+		this.load.atlas('char', 'assets/Assets/Character/char.png', 'assets/Assets/Character/char-phaser.json');
 
 		// Load background music and sound effects from public folder
 		this.load.audio('bg_music', 'assets/sounds/background-default.mp3');
@@ -106,6 +115,18 @@ export default class GameScene extends Phaser.Scene {
 			this.winAnimator,
 			this.soundManager
 		);
+
+		// --- Character (left side) ---
+		// Position: left of reels, vertically centered to match screenshot
+		const charX = 130; // Left side positioning
+		const charY = 280; // Vertically centered with reels
+		new CharacterView(this, charX, charY);
+
+		// --- Sound Toggle (bottom left) ---
+		new SoundToggleView(this, 50, 670);
+
+		// --- Settings Icon (next to sound toggle) ---
+		new SettingsIconView(this, 90, 670);
 	}
 
 	private async onSpin(): Promise<void> {
