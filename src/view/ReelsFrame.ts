@@ -5,10 +5,8 @@ import { SYMBOLS } from '../config/symbols';
 
 export class ReelsFrameView {
 	private isSpinning: boolean = false;
-	// Masking removed: not needed when using visibility logic
 	private frameImage!: Phaser.GameObjects.Image;
 	private scene: Phaser.Scene;
-// Masking removed
 	private symbolsContainer?: Phaser.GameObjects.Container;
 	// 3 visible + 2 extra symbols per reel for smooth rolling
 	private symbolImages: Phaser.GameObjects.Image[][] = [];
@@ -38,7 +36,6 @@ export class ReelsFrameView {
 	private frameWidth: number;
 	private frameHeight: number;
 
-	// Inline visibility check - much faster than getBounds()
 	private isVisible(y: number): boolean {
 		const halfHeight = this.symbolH / 2;
 		// Symbol is visible only if fully inside the frame
@@ -59,11 +56,8 @@ export class ReelsFrameView {
 		this.frameY = frameY ?? (GAME_HEIGHT - this.frameHeight) / 2;
 		this.initFrame();
 		this.initSymbols();
-		// Ensure no leftover graphics for masking are created or left visible
 	}
 	
-
-	// ...existing code...
 
 	private initFrame() {
 		const frameOffsetX = 0,
